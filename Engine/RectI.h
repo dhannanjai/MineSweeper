@@ -15,4 +15,5 @@ public:
 	bool IsConstaninedBy(const RectI& other)const;
 	
 	RectI GetExpanded(int offset)const;
+	Vec2i GetCenter()const;
 };

@@ -35,3 +35,8 @@ RectI RectI::GetExpanded(int offset) const
 {
 	return RectI(top - offset, bottom + offset, left - offset, right + offset);
 }
+
+Vec2i RectI::GetCenter() const
+{
+	return Vec2i((left + bottom) / 2, (top + bottom) / 2);
+} 
