@@ -16,4 +16,6 @@ public:
 	Vec2i& operator*=(int rhs);
 	Vec2i operator/(int rhs)const;
 	Vec2i& operator/=(int rhs);
+	int GetLengthSq()const;
+	float GetLength()const;
 };

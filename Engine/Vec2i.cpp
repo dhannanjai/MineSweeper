@@ -1,5 +1,5 @@
 #include "Vec2i.h"
-
+#include<cmath>
 Vec2i::Vec2i(int x, int y)
 {
 	this->x = x;
@@ -52,5 +52,16 @@ Vec2i & Vec2i::operator/=(int rhs)
 	*this = *this / rhs;
 	return *this;
 	// TODO: insert return statement here
+}
+
+int Vec2i::GetLengthSq() const
+{
+	return x*x + y*y;
+}
+
+float Vec2i::GetLength() const
+{
+	int lengthSq = GetLengthSq();
+	return sqrt(lengthSq);
 }
 
