@@ -7,6 +7,7 @@ public:
 	int y;
 	
 public:
+	Vec2i() = default;
 	Vec2i(int x, int y);
 	Vec2i operator+(const Vec2i& rhs)const;
 	Vec2i& operator+=(const Vec2i& rhs);
