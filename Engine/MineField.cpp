@@ -70,7 +70,7 @@ MineField::MineField(int nMines)
 
 void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 {
-	RectI rect = RectI(Vec2i(0, 0),Vec2i(width * SpriteCodex::tileSize, height * SpriteCodex::tileSize));
+	RectI rect = RectI(offset + Vec2i(0, 0),offset + Vec2i(width * SpriteCodex::tileSize, height * SpriteCodex::tileSize));
 	gfx.DrawRect(rect, SpriteCodex::baseColor);
 	
 	Vec2i gridPos =  Vec2i(0, 0);
@@ -78,7 +78,7 @@ void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 	{
 		for (gridPos.x = 0; gridPos.x < width ; gridPos.x++)
 		{
-			TileAt(gridPos).Draw(gridPos * SpriteCodex::tileSize,gfx);
+			TileAt(gridPos).Draw(offset + gridPos * SpriteCodex::tileSize,gfx);
 		}
 	}
 }
