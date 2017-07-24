@@ -26,8 +26,8 @@ public:
 		void Reveal();
 	};
 public:
-	static constexpr int width = 45;
-	static constexpr int height = 30;
+	static constexpr int width = 12;
+	static constexpr int height = 12;
 
 	Tile field[width * height];
 

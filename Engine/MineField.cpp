@@ -94,6 +94,7 @@ void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 
 void MineField::Test(int testCases)
 {
+	assert(testCases > 0 && testCases < height * width);
 	std::random_device rd;
 	std::mt19937 rng(rd());
 	std::uniform_int_distribution<int>xDist(0, width - 1);

@@ -28,10 +28,10 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	mineField(80),
+	mineField(40),
 	offset(Graphics::GetScreenRect().GetCenter() - Vec2i((MineField::width * SpriteCodex::tileSize)/ 2, (MineField::height * SpriteCodex::tileSize ) / 2))
 {
-	mineField.Test(MineField::height* MineField::width);
+	mineField.Test(50);
 }
 
 void Game::Go()
