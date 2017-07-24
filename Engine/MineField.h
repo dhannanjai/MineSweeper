@@ -38,6 +38,8 @@ private:
 public:
 	MineField(int nMines);
 	void Draw(const Vec2i& offset, Graphics& gfx)const;
+	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
+	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
 
 	void Test(int testCases);
 };

@@ -31,7 +31,7 @@ Game::Game(MainWindow& wnd)
 	mineField(40),
 	offset(Graphics::GetScreenRect().GetCenter() - Vec2i((MineField::width * SpriteCodex::tileSize)/ 2, (MineField::height * SpriteCodex::tileSize ) / 2))
 {
-	mineField.Test(50);
+	//mineField.Test(50);
 }
 
 void Game::Go()
@@ -44,7 +44,10 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-
+	if (wnd.mouse.LeftIsPressed())
+	{
+		mineField.RevealTile(offset, wnd.mouse.GetPos());
+	}
 }
 
 void Game::ComposeFrame()

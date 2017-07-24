@@ -92,6 +92,18 @@ void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 	}
 }
 
+Vec2i MineField::ScreenToGrid(const Vec2i & offset, Vec2i & screenPos) const
+{
+	screenPos -= offset;
+
+	return screenPos / SpriteCodex::tileSize;
+}
+
+void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
+{
+	TileAt(ScreenToGrid(offset, screenPos)).Reveal();
+}
+
 void MineField::Test(int testCases)
 {
 	assert(testCases > 0 && testCases < height * width);
