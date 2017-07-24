@@ -13,7 +13,7 @@ public:
 	
 	bool IsOverlappedBy(const RectI& other)const;
 	bool IsConstaninedBy(const RectI& other)const;
-	
+	bool Contains(Vec2i point)const; // a check for a point.
 	RectI GetExpanded(int offset)const;
 	Vec2i GetCenter()const;
 };

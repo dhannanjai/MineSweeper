@@ -31,6 +31,11 @@ bool RectI::IsConstaninedBy(const RectI & other) const
 	return top < other.top && left < other.left && right < other.right && bottom < other.bottom;
 }
 
+bool RectI::Contains(Vec2i point) const
+{
+	return point.x >= left && point.x < right && point.y >= top && point.y <= bottom;
+}
+
 RectI RectI::GetExpanded(int offset) const
 {
 	return RectI(top - offset, bottom + offset, left - offset, right + offset);
