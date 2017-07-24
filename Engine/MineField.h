@@ -16,20 +16,28 @@ public:
 	private:
 		bool hasMine = false;
 		State state = State::hidden;
-	
+		
 	public:
 		bool HasMine()const;
 		void SpawnMine();
 		void Draw(const Vec2i& screenPos, Graphics& gfx)const;
+
+		bool IsRevealed()const;
+		void Reveal();
 	};
 public:
-	static constexpr int width = 10;
-	static constexpr int height = 5;
+	static constexpr int width = 45;
+	static constexpr int height = 30;
 
 	Tile field[width * height];
-public:
+
+private:
 	Tile& TileAt(Vec2i gridPos);
 	const Tile& TileAt(Vec2i gridPos)const;
+	
+public:
 	MineField(int nMines);
 	void Draw(const Vec2i& offset, Graphics& gfx)const;
+
+	void Test(int testCases);
 };

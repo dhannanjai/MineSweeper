@@ -3,6 +3,16 @@
 #include<random>
 #include"SpriteCodex.h"
 
+bool MineField::Tile::IsRevealed() const
+{
+	return (state == State::revealed);
+}
+
+void MineField::Tile::Reveal()
+{
+	state = State::revealed;
+}
+
 bool MineField::Tile::HasMine() const
 {
 	return hasMine;
@@ -46,7 +56,6 @@ const MineField::Tile & MineField::TileAt(Vec2i gridPos)const
 	// TODO: insert return statement here
 }
 
-
 MineField::MineField(int nMines)
 {
 	assert(nMines > 0 && nMines < width * height);
@@ -80,5 +89,21 @@ void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 		{
 			TileAt(gridPos).Draw(offset + gridPos * SpriteCodex::tileSize,gfx);
 		}
+	}
+}
+
+void MineField::Test(int testCases)
+{
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<int>xDist(0, width - 1);
+	std::uniform_int_distribution<int>yDist(0, height - 1);
+
+	Vec2i spawnPos;
+	for (int i = 0; i < testCases; i++)
+	{
+		spawnPos = Vec2i(xDist(rng), yDist(rng));
+		if (!TileAt(spawnPos).IsRevealed())
+			TileAt(spawnPos).Reveal();
 	}
 }
