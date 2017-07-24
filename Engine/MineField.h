@@ -22,7 +22,7 @@ public:
 		void SpawnMine();
 		void Draw(const Vec2i& screenPos, Graphics& gfx)const;
 	};
-private:
+public:
 	static constexpr int width = 10;
 	static constexpr int height = 5;
 

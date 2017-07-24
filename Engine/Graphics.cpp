@@ -240,6 +240,11 @@ Graphics::Graphics( HWNDKey& key )
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
 }
 
+RectI Graphics::GetScreenRect()
+{
+	return RectI(0, ScreenHeight, 0, ScreenWidth);
+}
+
 Graphics::~Graphics()
 {
 	// free sysbuffer memory (aligned free)

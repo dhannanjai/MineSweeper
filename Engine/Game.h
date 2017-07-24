@@ -43,7 +43,7 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables          */
-	Vec2i offset;
 	MineField mineField;
+	Vec2i offset;
 	/********************************/
 };
