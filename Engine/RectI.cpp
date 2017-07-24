@@ -5,7 +5,7 @@ RectI::RectI(int top, int bottom, int left, int right)
 	this->top = top;
 	this->bottom = bottom;
 	this->left = left;
-	this->right;
+	this->right=right;
 }
 
 RectI::RectI(const Vec2i & topLeft, const Vec2i & bottomRight)

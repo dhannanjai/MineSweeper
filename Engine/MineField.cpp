@@ -1,6 +1,7 @@
 #include "MineField.h"
 #include<assert.h>
 #include<random>
+#include"SpriteCodex.h"
 
 bool MineField::Tile::HasMine() const
 {
@@ -13,11 +14,38 @@ void MineField::Tile::SpawnMine()
 	hasMine = true;
 }
 
+void MineField::Tile::Draw(const Vec2i & screenPos, Graphics & gfx) const
+{
+	switch (state)
+	{
+	case State::hidden:
+		SpriteCodex::DrawTileButton(screenPos, gfx);
+		break;
+	case State::flagged:
+		SpriteCodex::DrawTileButton(screenPos, gfx);
+		SpriteCodex::DrawTileFlag(screenPos, gfx);
+		break;
+	case State::revealed:
+		if (HasMine() == true)
+			SpriteCodex::DrawTileBomb(screenPos, gfx);
+		else
+			SpriteCodex::DrawTile0(screenPos, gfx);
+		break;
+	}
+}
+
 MineField::Tile & MineField::TileAt(Vec2i gridPos)
 {
 	return field[gridPos.x + width * gridPos.y];
 	// TODO: insert return statement here
 }
+
+const MineField::Tile & MineField::TileAt(Vec2i gridPos)const
+{
+	return field[gridPos.x + width * gridPos.y];
+	// TODO: insert return statement here
+}
+
 
 MineField::MineField(int nMines)
 {
@@ -37,5 +65,20 @@ MineField::MineField(int nMines)
 		} while (TileAt(spawnPos).HasMine() == true);
 
 		TileAt(spawnPos).SpawnMine();
+	}
+}
+
+void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
+{
+	RectI rect = RectI(Vec2i(0, 0),Vec2i(width * SpriteCodex::tileSize, height * SpriteCodex::tileSize));
+	gfx.DrawRect(rect, SpriteCodex::baseColor);
+	
+	Vec2i gridPos =  Vec2i(0, 0);
+	for (; gridPos.y < height; gridPos.y++)
+	{
+		for (gridPos.x = 0; gridPos.x < width ; gridPos.x++)
+		{
+			TileAt(gridPos).Draw(gridPos * SpriteCodex::tileSize,gfx);
+		}
 	}
 }

@@ -22,7 +22,7 @@
 
 #include "Keyboard.h"
 #include "Mouse.h"
-#include "Graphics.h"
+#include "MineField.h"
 
 class Game
 {
@@ -43,9 +43,7 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables          */
-	int x0 = 100;
-	int y0 = 100;
-	int x1 = 200;
-	int y1 = 200;
+	Vec2i offset;
+	MineField mineField;
 	/********************************/
 };

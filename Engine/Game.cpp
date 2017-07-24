@@ -26,7 +26,9 @@
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
-	gfx( wnd )
+	gfx( wnd ),
+	offset(Vec2i(40,40)),
+	mineField(5)
 {
 }
 
@@ -40,24 +42,11 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.kbd.KeyIsPressed(VK_UP))
-		y0--;
-	if (wnd.kbd.KeyIsPressed(VK_DOWN))
-		y0++;
-	if (wnd.kbd.KeyIsPressed(VK_RIGHT))
-		x0++;
-	if (wnd.kbd.KeyIsPressed(VK_LEFT))
-		x0--;
 
-	if (wnd.mouse.LeftIsPressed())
-	{
-		x1 = wnd.mouse.GetPosX();
-		y1 = wnd.mouse.GetPosY();
-	}
 }
 
 void Game::ComposeFrame()
 {
-	gfx.DrawRect(x0, y0, x1, y1, Colors::Cyan);
+	mineField.Draw(offset,gfx);
 }
 
