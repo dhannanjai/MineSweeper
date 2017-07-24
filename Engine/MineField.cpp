@@ -77,9 +77,14 @@ MineField::MineField(int nMines)
 	}
 }
 
+RectI MineField::GetRect(Vec2i offset) const
+{
+	return RectI(offset + Vec2i(0, 0), offset + Vec2i(width * SpriteCodex::tileSize, height * SpriteCodex::tileSize));
+}
+
 void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 {
-	RectI rect = RectI(offset + Vec2i(0, 0),offset + Vec2i(width * SpriteCodex::tileSize, height * SpriteCodex::tileSize));
+	RectI rect = GetRect(offset);
 	gfx.DrawRect(rect, SpriteCodex::baseColor);
 	
 	Vec2i gridPos =  Vec2i(0, 0);
@@ -101,7 +106,6 @@ Vec2i MineField::ScreenToGrid(const Vec2i & offset, Vec2i & screenPos) const
 
 void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
 {
-	if(screenPos.x >= offset.x && screenPos.y >= offset.y)
 		TileAt(ScreenToGrid(offset, screenPos)).Reveal();
 }
 

@@ -46,8 +46,11 @@ void Game::UpdateModel()
 {
 	if (wnd.mouse.LeftIsPressed())
 	{
-		mineField.RevealTile(offset, wnd.mouse.GetPos());
+		Vec2i screenPos = wnd.mouse.GetPos();
+		if (mineField.GetRect(offset).Contains(screenPos))
+			mineField.RevealTile(offset, screenPos);
 	}
+		
 }
 
 void Game::ComposeFrame()

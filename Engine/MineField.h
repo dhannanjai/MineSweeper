@@ -37,6 +37,7 @@ private:
 	
 public:
 	MineField(int nMines);
+	RectI GetRect(Vec2i offset)const;
 	void Draw(const Vec2i& offset, Graphics& gfx)const;
 	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
