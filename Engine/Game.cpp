@@ -44,19 +44,22 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	if (wnd.mouse.LeftIsPressed())
+	while (!wnd.mouse.IsEmpty())
 	{
-		Vec2i screenPos = wnd.mouse.GetPos();
-		if (mineField.GetRect(offset).Contains(screenPos))
-			mineField.RevealTile(offset, screenPos);
+		const auto e = wnd.mouse.Read();
+		if (e.GetType() == Mouse::Event::Type::LPress)
+		{
+			Vec2i screenPos = wnd.mouse.GetPos();
+			if (mineField.GetRect(offset).Contains(screenPos))
+				mineField.RevealTile(offset, screenPos);
+		}
+		if (e.GetType() == Mouse::Event::Type::RPress)
+		{
+			Vec2i screenPos = wnd.mouse.GetPos();
+			if (mineField.GetRect(offset).Contains(screenPos))
+				mineField.MarkFlag(offset, screenPos);
+		}
 	}
-	if (wnd.mouse.RightIsPressed())
-	{
-		Vec2i screenPos = wnd.mouse.GetPos();
-		if (mineField.GetRect(offset).Contains(screenPos))
-			mineField.MarkFlag(offset, screenPos);
-	}
-		
 }
 
 void Game::ComposeFrame()
