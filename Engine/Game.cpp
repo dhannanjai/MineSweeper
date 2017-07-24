@@ -50,6 +50,12 @@ void Game::UpdateModel()
 		if (mineField.GetRect(offset).Contains(screenPos))
 			mineField.RevealTile(offset, screenPos);
 	}
+	if (wnd.mouse.RightIsPressed())
+	{
+		Vec2i screenPos = wnd.mouse.GetPos();
+		if (mineField.GetRect(offset).Contains(screenPos))
+			mineField.MarkFlag(offset, screenPos);
+	}
 		
 }
 

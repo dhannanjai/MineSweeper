@@ -21,9 +21,12 @@ public:
 		bool HasMine()const;
 		void SpawnMine();
 		void Draw(const Vec2i& screenPos, Graphics& gfx)const;
-
-		bool IsRevealed()const;
+		void ToggleFlag();
 		void Reveal();
+
+		bool IsFlagged()const;
+		bool IsRevealed()const;
+		bool IsHidden()const;
 	};
 public:
 	static constexpr int width = 12;
@@ -41,6 +44,7 @@ public:
 	void Draw(const Vec2i& offset, Graphics& gfx)const;
 	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
+	void MarkFlag(const Vec2i& offset, Vec2i& screenPos);
 
 	void Test(int testCases);
 };

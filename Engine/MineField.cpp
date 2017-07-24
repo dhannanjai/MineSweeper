@@ -3,14 +3,33 @@
 #include<random>
 #include"SpriteCodex.h"
 
+bool MineField::Tile::IsFlagged() const
+{
+	return state == State::flagged;
+}
+
 bool MineField::Tile::IsRevealed() const
 {
 	return (state == State::revealed);
 }
 
+bool MineField::Tile::IsHidden() const
+{
+	return state == State::hidden;
+}
+
 void MineField::Tile::Reveal()
 {
+	assert(IsHidden());
+	assert(!IsRevealed());
 	state = State::revealed;
+}
+
+void MineField::Tile::ToggleFlag()
+{
+	assert(IsHidden());
+	assert(!IsFlagged());
+	state = State::flagged;
 }
 
 bool MineField::Tile::HasMine() const
@@ -106,7 +125,16 @@ Vec2i MineField::ScreenToGrid(const Vec2i & offset, Vec2i & screenPos) const
 
 void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
 {
-		TileAt(ScreenToGrid(offset, screenPos)).Reveal();
+	MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
+	if (tile.IsHidden() && !tile.IsRevealed())
+		tile.Reveal();
+}
+
+void MineField::MarkFlag(const Vec2i & offset, Vec2i & screenPos)
+{
+	MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
+	if (tile.IsHidden() && !tile.IsFlagged())
+		tile.ToggleFlag();
 }
 
 void MineField::Test(int testCases)
