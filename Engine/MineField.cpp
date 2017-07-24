@@ -101,7 +101,8 @@ Vec2i MineField::ScreenToGrid(const Vec2i & offset, Vec2i & screenPos) const
 
 void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
 {
-	TileAt(ScreenToGrid(offset, screenPos)).Reveal();
+	if(screenPos.x >= offset.x && screenPos.y >= offset.y)
+		TileAt(ScreenToGrid(offset, screenPos)).Reveal();
 }
 
 void MineField::Test(int testCases)
