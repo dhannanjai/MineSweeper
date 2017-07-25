@@ -16,13 +16,15 @@ public:
 	private:
 		bool hasMine = false;
 		State state = State::hidden;
-		
+		int neighboursMinesCount = -1;
+
 	public:
 		bool HasMine()const;
 		void SpawnMine();
 		void Draw(const Vec2i& screenPos, Graphics& gfx)const;
 		void ToggleFlag();
 		void Reveal();
+		void SetNeighbourMinesCount(int count);
 
 		bool IsFlagged()const;
 		bool IsRevealed()const;
@@ -40,11 +42,15 @@ private:
 	
 public:
 	MineField(int nMines);
-	RectI GetRect(Vec2i offset)const;
-	void Draw(const Vec2i& offset, Graphics& gfx)const;
 	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
+	RectI GetRect(Vec2i offset)const;
+
+	void Draw(const Vec2i& offset, Graphics& gfx)const;
+	
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
 	void MarkFlag(const Vec2i& offset, Vec2i& screenPos);
 
 	void Test(int testCases);
+
+	int MinesCount(const Vec2i& gridPos)const;
 };

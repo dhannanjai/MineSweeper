@@ -2,6 +2,7 @@
 #include<assert.h>
 #include<random>
 #include"SpriteCodex.h"
+#include<algorithm>
 
 bool MineField::Tile::IsFlagged() const
 {
@@ -23,6 +24,13 @@ void MineField::Tile::Reveal()
 	assert(IsHidden());
 	assert(!IsRevealed());
 	state = State::revealed;
+}
+
+void MineField::Tile::SetNeighbourMinesCount(int count)
+{
+	assert(neighboursMinesCount == -1);
+
+	neighboursMinesCount = count;
 }
 
 void MineField::Tile::ToggleFlag()
@@ -94,6 +102,15 @@ MineField::MineField(int nMines)
 
 		TileAt(spawnPos).SpawnMine();
 	}
+	Vec2i gridPos;
+	for (gridPos.x = 0; gridPos.x < width; gridPos.x++)
+	{
+		for (gridPos.y = 0; gridPos.y < height; gridPos.y++)
+		{
+			if (!TileAt(gridPos).HasMine())
+				TileAt(gridPos).SetNeighbourMinesCount(MinesCount(gridPos));
+		}
+	}
 }
 
 RectI MineField::GetRect(Vec2i offset) const
@@ -152,4 +169,25 @@ void MineField::Test(int testCases)
 		if (!TileAt(spawnPos).IsRevealed())
 			TileAt(spawnPos).Reveal();
 	}
+}
+
+int MineField::MinesCount(const Vec2i & gridPos) const
+{
+	assert(!TileAt(gridPos).HasMine());
+
+	int xStart = std::max<int>(0, gridPos.x - 1);
+	int yStart = std::max<int>(0, gridPos.y - 1);
+	int xEnd = std::min<int>(width - 1, gridPos.x + 1);
+	int yEnd = std::min<int>(width - 1, gridPos.y + 1);
+	int count = 0;
+	Vec2i spawnPos;
+	for (spawnPos.x = xStart; spawnPos.x < xEnd; spawnPos.x++)
+	{
+		for (spawnPos.y = yStart; spawnPos.y < yEnd; spawnPos.y++)
+		{
+			if (TileAt(spawnPos).HasMine())
+				count++;
+		}
+	}
+	return 0;
 }
