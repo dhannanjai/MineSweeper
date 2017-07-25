@@ -148,6 +148,8 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="RectI.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteCodex.h" />
     <ClInclude Include="Vec2i.h" />
   </ItemGroup>
@@ -161,6 +163,7 @@
     <ClCompile Include="MineField.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="RectI.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SpriteCodex.cpp" />
     <ClCompile Include="Vec2i.cpp" />
   </ItemGroup>
@@ -231,6 +234,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Chili.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="menu_boop.sfk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="menu_boop.wav" />
+    <Media Include="spayed.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
