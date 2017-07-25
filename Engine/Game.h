@@ -23,6 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "MineField.h"
+#include"Sound.h"
+#include"SoundEffect.h"
 
 class Game
 {
@@ -45,5 +47,12 @@ private:
 	/*  User Variables          */
 	MineField mineField;
 	Vec2i offset;
+	bool hasWon = false;
+	bool hasLost = false;
+
+	Sound spayed;
+	Sound won;
+	bool spayedIsPlayed = false;
+	bool wonIsPlayed = false;
 	/********************************/
 };

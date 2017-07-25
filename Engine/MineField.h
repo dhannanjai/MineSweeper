@@ -31,8 +31,8 @@ public:
 		bool IsHidden()const;
 	};
 public:
-	static constexpr int width = 12;
-	static constexpr int height = 12;
+	static constexpr int width = 7;
+	static constexpr int height = 7;
 
 	Tile field[width * height];
 
@@ -40,7 +40,8 @@ private:
 	Tile& TileAt(Vec2i gridPos);
 	const Tile& TileAt(Vec2i gridPos)const;
 	bool failed = false;
-
+	bool won = false;
+	int numberOfMines;
 public:
 	MineField(int nMines);
 	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
@@ -51,7 +52,9 @@ public:
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
 	void MarkFlag(const Vec2i& offset, Vec2i& screenPos);
 
-	void Test(int testCases);
-
 	int MinesCount(const Vec2i& gridPos)const;
+	bool HasWon()const;
+	bool HasLost()const;
+
+	void Test(int testCases);
 };

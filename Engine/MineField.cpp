@@ -120,6 +120,7 @@ const MineField::Tile & MineField::TileAt(Vec2i gridPos)const
 MineField::MineField(int nMines)
 {
 	assert(nMines > 0 && nMines < width * height);
+	numberOfMines = nMines;
 
 	std::random_device rd;
 	std::mt19937 rng(rd());
@@ -235,4 +236,28 @@ int MineField::MinesCount(const Vec2i & gridPos) const
 		}
 	}
 	return count;
+}
+
+bool MineField::HasWon() const
+{
+	int nMines = 0;
+	for (const Tile& tile : field)
+	{
+		if (tile.IsFlagged())
+		{
+			nMines++;
+			if (!tile.HasMine())
+				return false;
+		}
+	}
+	
+	if (nMines == numberOfMines)
+		return true;
+	
+	return false;
+}
+
+bool MineField::HasLost() const
+{
+	return failed;
 }

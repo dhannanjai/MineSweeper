@@ -28,8 +28,10 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	mineField(10),
-	offset(Graphics::GetScreenRect().GetCenter() - Vec2i((MineField::width * SpriteCodex::tileSize)/ 2, (MineField::height * SpriteCodex::tileSize ) / 2))
+	mineField(7),
+	offset(Graphics::GetScreenRect().GetCenter() - Vec2i((MineField::width * SpriteCodex::tileSize) / 2, (MineField::height * SpriteCodex::tileSize) / 2)),
+	spayed(L"spayed.wav"),
+	won(L"menu_boop.wav")
 {
 	//mineField.Test(50);
 }
@@ -60,10 +62,28 @@ void Game::UpdateModel()
 				mineField.MarkFlag(offset, screenPos);
 		}
 	}
+
+	hasWon = mineField.HasWon();
+	hasLost = mineField.HasLost();
 }
 
 void Game::ComposeFrame()
 {
-	mineField.Draw(offset,gfx);
+	mineField.Draw(offset, gfx);
+	if (hasWon)
+	{
+		SpriteCodex::DrawWin(Graphics::GetScreenRect().GetCenter(), gfx);
+		
+		if (!spayedIsPlayed)
+		{
+			won.Play();
+			wonIsPlayed = true;
+		}
+	}
+	if (hasLost && !spayedIsPlayed)
+	{
+		spayed.Play();
+		spayedIsPlayed = true;
+	}
 }
 
