@@ -25,14 +25,15 @@ public:
 		void ToggleFlag();
 		void Reveal();
 		void SetNeighbourMinesCount(int count);
+		bool HasNoNeighbourMines()const;
 
 		bool IsFlagged()const;
 		bool IsRevealed()const;
 		bool IsHidden()const;
 	};
 public:
-	static constexpr int width = 7;
-	static constexpr int height = 7;
+	static constexpr int width = 12;
+	static constexpr int height = 12;
 
 	Tile field[width * height];
 
@@ -50,6 +51,7 @@ public:
 	void Draw(const Vec2i& offset, Graphics& gfx)const;
 	
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
+	void Revealing(Vec2i& gridpos);
 	void MarkFlag(const Vec2i& offset, Vec2i& screenPos);
 
 	int MinesCount(const Vec2i& gridPos)const;

@@ -28,7 +28,7 @@ Game::Game(MainWindow& wnd)
 	:
 	wnd(wnd),
 	gfx(wnd),
-	mineField(7),
+	mineField(5),
 	offset(Graphics::GetScreenRect().GetCenter() - Vec2i((MineField::width * SpriteCodex::tileSize) / 2, (MineField::height * SpriteCodex::tileSize) / 2)),
 	spayed(L"spayed.wav"),
 	won(L"menu_boop.wav")

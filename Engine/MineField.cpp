@@ -23,6 +23,7 @@ void MineField::Tile::Reveal()
 {
 	assert(IsHidden());
 	assert(!IsRevealed());
+
 	state = State::revealed;
 }
 
@@ -31,6 +32,11 @@ void MineField::Tile::SetNeighbourMinesCount(int count)
 	assert(neighboursMinesCount == -1);
 
 	neighboursMinesCount = count;
+}
+
+bool MineField::Tile::HasNoNeighbourMines() const
+{
+	return neighboursMinesCount == 0;
 }
 
 void MineField::Tile::ToggleFlag()
@@ -180,12 +186,44 @@ void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
 {
 	if (!failed)
 	{
-		MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
+		Vec2i gridpos = ScreenToGrid(offset, screenPos);
+		MineField::Tile& tile = TileAt(gridpos);
 		if (tile.IsHidden() && !tile.IsRevealed())
 		{
-			tile.Reveal();
-			if (tile.HasMine() == true)
+			Revealing(gridpos);
+
+			if (tile.HasMine())
 				failed = true;
+		}
+	}
+}
+
+/*
+* basic job, any tile that has been clicked(hidden and flagged) on will call for this too.
+* that particular tile will be revealed by line 208.
+* now, if the tile is useless(i.e. no neighbourshas mine too)
+* it will call those tiles too...
+* and hence the recursion solves it all.
+*/
+void MineField::Revealing(Vec2i & gridpos)
+{
+	Tile& tile = TileAt(gridpos);
+	tile.Reveal();
+
+	if (tile.HasNoNeighbourMines())
+	{
+		int xStart = std::max<int>(0, gridpos.x - 1);
+		int yStart = std::max<int>(0, gridpos.y - 1);
+		int xEnd = std::min<int>(width - 1, gridpos.x + 1);
+		int yEnd = std::min<int>(height - 1, gridpos.y + 1);
+		
+		for (Vec2i pos = Vec2i(xStart, yStart); pos.x <= xEnd; pos.x++)
+		{
+			for (pos.y = yStart; pos.y <= yEnd; pos.y++)
+			{
+				if (TileAt(pos).IsHidden()) //////very very important because it will give the tile pointing to the grid.....
+					Revealing(pos);
+			}
 		}
 	}
 }
