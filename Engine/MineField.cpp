@@ -51,24 +51,58 @@ void MineField::Tile::SpawnMine()
 	hasMine = true;
 }
 
-void MineField::Tile::Draw(const Vec2i & screenPos, Graphics & gfx) const
+void MineField::Tile::Draw(const Vec2i & screenPos, bool failed ,Graphics & gfx) const
 {
-	switch (state)
+	if (!failed)
 	{
-	case State::hidden:
-		SpriteCodex::DrawTileButton(screenPos, gfx);
-		break;
-	case State::flagged:
-		SpriteCodex::DrawTileButton(screenPos, gfx);
-		SpriteCodex::DrawTileFlag(screenPos, gfx);
-		break;
-	case State::revealed:
-		if (HasMine() == true)
-			SpriteCodex::DrawTileBomb(screenPos, gfx);
-		else
-			SpriteCodex::DrawTileNumber(screenPos, neighboursMinesCount, gfx);
-		break;
+		switch (state)
+		{
+		case State::hidden:
+			SpriteCodex::DrawTileButton(screenPos, gfx);
+			break;
+		case State::flagged:
+			SpriteCodex::DrawTileButton(screenPos, gfx);
+			SpriteCodex::DrawTileFlag(screenPos, gfx);
+			break;
+		case State::revealed:
+			if (HasMine() == true)
+				SpriteCodex::DrawTileBomb(screenPos, gfx);
+			else
+				SpriteCodex::DrawTileNumber(screenPos, neighboursMinesCount, gfx);
+			break;
+		}
 	}
+	else
+	{
+		switch (state)
+		{
+		case State::hidden:
+			if (!HasMine())
+				SpriteCodex::DrawTileButton(screenPos, gfx);
+			else
+				SpriteCodex::DrawTileBomb(screenPos, gfx);
+			break;
+		case State::flagged:
+			if (!HasMine())
+			{
+				SpriteCodex::DrawTileFlag(screenPos, gfx);
+				SpriteCodex::DrawTileCross(screenPos, gfx);
+			}
+			else
+			{
+				SpriteCodex::DrawTileBomb(screenPos, gfx);
+				SpriteCodex::DrawTileFlag(screenPos, gfx);
+			}
+			break;
+		case State::revealed:
+			if (HasMine() == true)
+				SpriteCodex::DrawTileBombRed(screenPos, gfx);
+			else
+				SpriteCodex::DrawTileNumber(screenPos, neighboursMinesCount, gfx);
+			break;
+		}
+	}
+	
 }
 
 MineField::Tile & MineField::TileAt(Vec2i gridPos)
@@ -129,7 +163,7 @@ void MineField::Draw(const Vec2i& offset,Graphics & gfx) const
 	{
 		for (gridPos.x = 0; gridPos.x < width ; gridPos.x++)
 		{
-			TileAt(gridPos).Draw(offset + gridPos * SpriteCodex::tileSize,gfx);
+			TileAt(gridPos).Draw(offset + gridPos * SpriteCodex::tileSize, failed, gfx);
 		}
 	}
 }
@@ -143,16 +177,26 @@ Vec2i MineField::ScreenToGrid(const Vec2i & offset, Vec2i & screenPos) const
 
 void MineField::RevealTile(const Vec2i & offset, Vec2i & screenPos)
 {
-	MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
-	if (tile.IsHidden() && !tile.IsRevealed())
-		tile.Reveal();
+	if (!failed)
+	{
+		MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
+		if (tile.IsHidden() && !tile.IsRevealed())
+		{
+			tile.Reveal();
+			if (tile.HasMine() == true)
+				failed = true;
+		}
+	}
 }
 
 void MineField::MarkFlag(const Vec2i & offset, Vec2i & screenPos)
 {
-	MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
-	if (tile.IsHidden() && !tile.IsFlagged())
-		tile.ToggleFlag();
+	if (!failed)
+	{
+		MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
+		if (tile.IsHidden() && !tile.IsFlagged())
+			tile.ToggleFlag();
+	}
 }
 
 void MineField::Test(int testCases)

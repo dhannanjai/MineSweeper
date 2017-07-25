@@ -21,7 +21,7 @@ public:
 	public:
 		bool HasMine()const;
 		void SpawnMine();
-		void Draw(const Vec2i& screenPos, Graphics& gfx)const;
+		void Draw(const Vec2i& screenPos,bool failed, Graphics& gfx)const;
 		void ToggleFlag();
 		void Reveal();
 		void SetNeighbourMinesCount(int count);
@@ -39,7 +39,8 @@ public:
 private:
 	Tile& TileAt(Vec2i gridPos);
 	const Tile& TileAt(Vec2i gridPos)const;
-	
+	bool failed = false;
+
 public:
 	MineField(int nMines);
 	Vec2i ScreenToGrid(const Vec2i& offset, Vec2i& screenPos)const;
