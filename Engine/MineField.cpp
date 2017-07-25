@@ -66,7 +66,7 @@ void MineField::Tile::Draw(const Vec2i & screenPos, Graphics & gfx) const
 		if (HasMine() == true)
 			SpriteCodex::DrawTileBomb(screenPos, gfx);
 		else
-			SpriteCodex::DrawTile0(screenPos, gfx);
+			SpriteCodex::DrawTileNumber(screenPos, neighboursMinesCount, gfx);
 		break;
 	}
 }
@@ -102,6 +102,7 @@ MineField::MineField(int nMines)
 
 		TileAt(spawnPos).SpawnMine();
 	}
+
 	Vec2i gridPos;
 	for (gridPos.x = 0; gridPos.x < width; gridPos.x++)
 	{
@@ -178,16 +179,16 @@ int MineField::MinesCount(const Vec2i & gridPos) const
 	int xStart = std::max<int>(0, gridPos.x - 1);
 	int yStart = std::max<int>(0, gridPos.y - 1);
 	int xEnd = std::min<int>(width - 1, gridPos.x + 1);
-	int yEnd = std::min<int>(width - 1, gridPos.y + 1);
+	int yEnd = std::min<int>(height - 1, gridPos.y + 1);
 	int count = 0;
 	Vec2i spawnPos;
-	for (spawnPos.x = xStart; spawnPos.x < xEnd; spawnPos.x++)
+	for (spawnPos.x = xStart; spawnPos.x <= xEnd; spawnPos.x++)
 	{
-		for (spawnPos.y = yStart; spawnPos.y < yEnd; spawnPos.y++)
+		for (spawnPos.y = yStart; spawnPos.y <= yEnd; spawnPos.y++)
 		{
 			if (TileAt(spawnPos).HasMine())
 				count++;
 		}
 	}
-	return 0;
+	return count;
 }
