@@ -41,9 +41,11 @@ bool MineField::Tile::HasNoNeighbourMines() const
 
 void MineField::Tile::ToggleFlag()
 {
-	assert(IsHidden());
-	assert(!IsFlagged());
-	state = State::flagged;
+	assert(state != State::revealed);
+	if (state == State::hidden)
+		state = State::flagged;
+	else
+		state = State::hidden;
 }
 
 bool MineField::Tile::HasMine() const
@@ -228,12 +230,12 @@ void MineField::Revealing(Vec2i & gridpos)
 	}
 }
 
-void MineField::MarkFlag(const Vec2i & offset, Vec2i & screenPos)
+void MineField::ToggleFlag(const Vec2i & offset, Vec2i & screenPos)
 {
 	if (!failed)
 	{
 		MineField::Tile& tile = TileAt(ScreenToGrid(offset, screenPos));
-		if (tile.IsHidden() && !tile.IsFlagged())
+		if (!tile.IsRevealed())
 			tile.ToggleFlag();
 	}
 }

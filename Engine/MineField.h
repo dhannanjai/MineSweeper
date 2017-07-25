@@ -52,7 +52,7 @@ public:
 	
 	void RevealTile(const Vec2i& offset, Vec2i& screenPos);
 	void Revealing(Vec2i& gridpos);
-	void MarkFlag(const Vec2i& offset, Vec2i& screenPos);
+	void ToggleFlag(const Vec2i& offset, Vec2i& screenPos);
 
 	int MinesCount(const Vec2i& gridPos)const;
 	bool HasWon()const;

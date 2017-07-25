@@ -59,7 +59,7 @@ void Game::UpdateModel()
 		{
 			Vec2i screenPos = wnd.mouse.GetPos();
 			if (mineField.GetRect(offset).Contains(screenPos))
-				mineField.MarkFlag(offset, screenPos);
+				mineField.ToggleFlag(offset, screenPos);
 		}
 	}
 
